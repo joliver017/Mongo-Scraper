@@ -1,4 +1,5 @@
 var express = require("express");
+var exphbs = require("express-handlebars");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
@@ -25,6 +26,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
+
+// Handlebars
+app.engine(
+  "handlebars",
+  exphbs({
+    defaultLayout: "main"
+  })
+);
+app.set("view engine", "handlebars");
 
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/articleScraper", { useNewUrlParser: true });
@@ -117,6 +127,8 @@ app.post("/articles/:id", function(req, res) {
       res.json(err);
     });
 });
+
+require("./routes/htmlRoutes")(app);
 
 // Start the server
 app.listen(PORT, function() {
