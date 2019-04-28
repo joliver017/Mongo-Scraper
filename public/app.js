@@ -3,13 +3,14 @@ $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + "<a class='uk-link-muted uk-text-lead' href=" + data[i].link + ">" + data[i].title + "</a>" + "<br /> <br />" + data[i].teaser + "<br />" + "</p>");
+    $("#articles").append("<p data-id='" + data[i]._id + "'>" + "<a class='uk-link-muted uk-text-lead' href=" + data[i].link + ">" + data[i].title + "</a>" + "<br /> <br />" + data[i].teaser + "<br />" + "</p>" 
+    + "<button data-id='" + data[i]._id + "' id='viewnote' class='uk-button uk-button-default'>View Note</button>" + "<hr>");
   }
 });
 
 
 // Whenever someone clicks a p tag
-$(document).on("click", "p", function() {
+$(document).on("click", "#viewnote", function() {
   // Empty the notes from the note section
   $("#notes").empty();
   // Save the id from the p tag
@@ -24,7 +25,7 @@ $(document).on("click", "p", function() {
     .then(function(data) {
       console.log(data);
       // The title of the article
-      $("#notes").append("<h2 uk-sticky='bottom: #offset'>" + data.title + "</h2>");
+      $("#notes").append("<h2 uk-sticky='bottom: #offset'>" + data.title + "</h2><br />");
       // An input to enter a new title
       $("#notes").append("<input id='titleinput' name='title' class='uk-input uk-form-width-medium'><br />");
       // A textarea to add a new note body
