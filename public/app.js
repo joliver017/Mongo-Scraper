@@ -24,13 +24,14 @@ $(document).on("click", "p", function() {
     .then(function(data) {
       console.log(data);
       // The title of the article
-      $("#notes").append("<h2>" + data.title + "</h2>");
+      $("#notes").append("<h2 uk-sticky='bottom: #offset'>" + data.title + "</h2>");
       // An input to enter a new title
       $("#notes").append("<input id='titleinput' name='title' class='uk-input uk-form-width-medium'><br />");
       // A textarea to add a new note body
       $("#notes").append("<br /><textarea id='bodyinput' name='body' class='uk-textarea uk-form-width-medium'></textarea><br />");
       // A button to submit a new note, with the id of the article saved to it
       $("#notes").append("<br /><button data-id='" + data._id + "' id='savenote' class='uk-button uk-button-default'>Save Note</button>");
+      $("#notes").append("<br /><button data-id='" + data._id + "' id='deletenote' class='uk-button uk-button-default'>Delete Note</button>");
 
       // If there's a note in the article
       if (data.note) {
@@ -57,6 +58,29 @@ $(document).on("click", "#savenote", function() {
       // Value taken from note textarea
       body: $("#bodyinput").val()
     }
+  })
+    // With that done
+    .then(function(data) {
+      // Log the response
+      console.log(data);
+      // Empty the notes section
+      $("#notes").empty();
+    });
+
+  // Also, remove the values entered in the input and textarea for note entry
+  $("#titleinput").val("");
+  $("#bodyinput").val("");
+});
+
+// When you click the deletenote button
+$(document).on("click", "#deletenote", function() {
+  // Grab the id associated with the article from the submit button
+  var thisId = $(this).attr("data-id");
+
+  // Run a DELETE request to change the note, using what's entered in the inputs
+  $.ajax({
+    method: "DELETE",
+    url: "/articles/" + thisId
   })
     // With that done
     .then(function(data) {
