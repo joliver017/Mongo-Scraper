@@ -9,11 +9,11 @@ $.getJSON("/articles", function(data) {
 });
 
 
-// Whenever someone clicks a p tag
+// Whenever someone clicks View Note button
 $(document).on("click", "#viewnote", function() {
   // Empty the notes from the note section
   $("#notes").empty();
-  // Save the id from the p tag
+  // Save the id from the button
   var thisId = $(this).attr("data-id");
 
   // Now make an ajax call for the Article
